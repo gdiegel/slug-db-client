@@ -10,7 +10,10 @@ public class SessionTest extends CouchDbTest {
 
     @Test
     public void canGetDatabaseInfo() {
-
+        
+        CouchDbSession s = new CouchDbSession(couchDbProtocol, couchDbHost, couchDbPort, couchDbUsername, couchDbPassword, AuthenticationType.BASIC);
+        CouchDbClient c = s.getCouchDbClient(couchDbName);
+        c.printDbInfo();
     }
 
 }

@@ -1,15 +1,10 @@
 package io.slug.slug_db_client;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Properties;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.logging.Log;
@@ -32,8 +27,6 @@ public class CouchDbTest {
     static int couchDbPort;
     static String couchDbUsername;
     static String couchDbPassword;
-    static Client client;
-    static WebTarget couchDb;
 
     @BeforeClass
     public static void initialize() {
@@ -66,17 +59,10 @@ public class CouchDbTest {
         couchDbUsername = props.getProperty("couchdb.username");
         couchDbPassword = props.getProperty("couchdb.password");
 
-        BASE_URI = UriBuilder.fromUri(couchDbProtocol + "://" + couchDbHost + ":" + couchDbPort).build();
-        client = ClientBuilder.newClient();
-        couchDb = client.target(BASE_URI);
-        Response response = couchDb.request().get();
-        LOG.info(response.readEntity(String.class));
-        response.close();
     }
 
     @AfterClass
     public static void shutDown() {
 
-        client.close();
     }
 }
