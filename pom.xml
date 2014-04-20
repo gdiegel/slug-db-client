@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.slug</groupId>
     <artifactId>slug-db-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <name>slug-db-client</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +31,11 @@
             <artifactId>resteasy-client</artifactId>
             <version>3.0.7.Final</version>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.3</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -42,6 +47,23 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.17</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
             </plugin>
         </plugins>
     </build>
