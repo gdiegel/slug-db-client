@@ -1,6 +1,7 @@
 package io.slug.slug_db_client;
 
 import java.net.URI;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -12,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 @SuppressWarnings("unused")
 public class CouchDbSession {
 
-    private Log LOG = LogFactory.getLog(CouchDbSession.class);
+    private final static Logger LOG = Logger.getLogger(CouchDbSession.class.getName());
 
     private final String couchDbProtocol;
     private final String couchDbHost;
