@@ -17,7 +17,7 @@ public class ViewTest extends CouchDbTest {
     @Test
     public void canGetView() throws Exception {
 
-        JsonNode doc = mapper.readValue("{\"_id\":\"" + UUID.randomUUID() + "\", \"key\":\"value\"}", JsonNode.class);
+        JsonNode doc = mapper.readValue("{\"_id\":\"" + UUID.randomUUID() + "\", \"test_key\":\"test_value\"}", JsonNode.class);
         LOG.info("Putting doc: " + doc.toString());
         client.putDoc(doc);
 

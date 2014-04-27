@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+@SuppressWarnings("unused")
 public class SessionTest extends CouchDbTest {
 
     private final static Logger LOG = Logger.getLogger(SessionTest.class.getName());
