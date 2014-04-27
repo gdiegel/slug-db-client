@@ -3,17 +3,25 @@ package io.slug.slug_db_client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 
 public class CouchDbTest {
 
     private final static Logger LOG = Logger.getLogger(CouchDbTest.class.getName()); 
 
+    protected static final String TEST_DDOC = "tdoc";
+    protected static final String TEST_VIEW = "tdoc";
+    
     static Properties props = new Properties();
 
     static UriBuilder uriBuilder;
@@ -25,6 +33,9 @@ public class CouchDbTest {
     static int couchDbPort;
     static String couchDbUsername;
     static String couchDbPassword;
+
+    protected static CouchDbSession session;
+    protected static CouchDbClient client;
 
     @BeforeClass
     public static void initialize() {
@@ -57,5 +68,24 @@ public class CouchDbTest {
         couchDbUsername = props.getProperty("couchdb.username");
         couchDbPassword = props.getProperty("couchdb.password");
 
+        session = new CouchDbSession(couchDbProtocol, couchDbHost, couchDbPort, couchDbUsername, couchDbPassword, AuthenticationType.BASIC);
+        client = session.getCouchDbClient(couchDbName);
+        
+    }
+    
+    @AfterClass
+    public static void cleanUp() throws CouchDbDocumentDeletionException{
+        
+        JsonNode j = client.getView(TEST_DDOC, TEST_VIEW);
+        if (j.get("rows").isArray()) {
+            ArrayNode a = (ArrayNode) j.get("rows");
+            Iterator<JsonNode> elements = a.getElements();
+            while (elements.hasNext()){
+                JsonNode next = elements.next();
+                client.deleteDoc(next.get("id").getTextValue(), next.get("value").get("doc_rev").getTextValue());
+            }
+        }
+        
+        Assert.assertTrue(0 == client.getView(TEST_DDOC, TEST_VIEW).get("total_rows").asInt());
     }
 }

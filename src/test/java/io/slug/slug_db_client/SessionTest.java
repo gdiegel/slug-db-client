@@ -17,4 +17,13 @@ public class SessionTest extends CouchDbTest {
         s.invalidate();
     }
 
+    
+    @Test(expected=IllegalStateException.class)
+    public void clientIsClosedProperly() {
+
+        CouchDbSession s = new CouchDbSession(couchDbProtocol, couchDbHost, couchDbPort, couchDbUsername, couchDbPassword, AuthenticationType.BASIC);
+        CouchDbClient c = s.getCouchDbClient(couchDbName);
+        s.invalidate();
+        c.printDbInfo();
+    }
 }
